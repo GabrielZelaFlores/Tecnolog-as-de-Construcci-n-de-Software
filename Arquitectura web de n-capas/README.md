@@ -16,9 +16,9 @@ Inversion*).
 |-------------------|---------------------------------------------|
 | Presentación (UI) | Next.js 16 (App Router) + React 19 + Tailwind + shadcn/ui |
 | Presentación (API)| Next.js Route Handlers (REST)               |
-| Aplicación        | Casos de uso en TypeScript puro             |
+| Aplicación        | Casos de uso en TypeScript                  |
 | Infraestructura   | Prisma ORM + SQLite                         |
-| Dominio           | Entidades e interfaces en TypeScript puro   |
+| Dominio           | Entidades e interfaces en TypeScript        |
 
 ---
 
