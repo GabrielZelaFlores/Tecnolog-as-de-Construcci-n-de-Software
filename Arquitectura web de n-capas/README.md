@@ -10,7 +10,7 @@ Inversion*).
 
 ---
 
-## 🧱 Stack tecnológico
+## Stack tecnológico
 
 | Capa              | Tecnología                                  |
 |-------------------|---------------------------------------------|
@@ -22,28 +22,28 @@ Inversion*).
 
 ---
 
-## 📁 Estructura de carpetas (N-Capas)
+## Estructura de carpetas (N-Capas)
 
 ```
 src/
-├── domain/                          # 🏛️ CAPA 1: DOMINIO
+├── domain/                          #  CAPA 1: DOMINIO
 │   ├── entities/
 │   │   └── Product.ts               # Entidad de negocio + reglas (isAvailable, applyDiscount)
 │   └── repositories/
 │       └── IProductRepository.ts    # Contrato (interface) del repositorio
 │
-├── infrastructure/                  # 🗄️ CAPA 2: INFRAESTRUCTURA (Data Access)
+├── infrastructure/                  #  CAPA 2: INFRAESTRUCTURA (Data Access)
 │   └── repositories/
 │       └── PrismaProductRepository.ts   # Implementación concreta con Prisma
 │
-├── application/                     # ⚙️ CAPA 3: APLICACIÓN (Business Logic)
+├── application/                     #  CAPA 3: APLICACIÓN (Business Logic)
 │   ├── dto/
 │   │   └── ProductDTO.ts            # Data Transfer Objects + mapper toDTO()
 │   └── use-cases/
 │       ├── ProductUseCases.ts       # GetAll, GetById, Create, Update, Delete
 │       └── index.ts                 # Composition Root: inyecta el repo en los use cases
 │
-├── presentation/                    # 🎨 CAPA 4: PRESENTACIÓN
+├── presentation/                    #  CAPA 4: PRESENTACIÓN
 │   └── components/
 │       ├── ProductForm.tsx          # Formulario de alta
 │       └── ProductList.tsx          # Grid de tarjetas + eliminar
@@ -63,7 +63,7 @@ src/lib/
 └── db.ts                            # Cliente Prisma (singleton)
 ```
 
-### 🔁 Flujo de dependencias (Dependency Inversion)
+###  Flujo de dependencias (Dependency Inversion)
 
 ```
 Presentación  ──►  Aplicación  ──►  Dominio (interfaces)
@@ -78,7 +78,7 @@ La capa de **Presentación** solo llama a los casos de uso (o vía HTTP desde el
 
 ---
 
-## ▶️ Cómo ejecutar
+##  Cómo ejecutar
 
 ### 1) Requisitos previos
 
@@ -133,7 +133,7 @@ curl -X DELETE http://localhost:3000/api/products/<id>
 
 ---
 
-## 🧪 Endpoints disponibles
+##  Endpoints disponibles
 
 | Método  | Ruta                     | Descripción                 |
 |---------|--------------------------|-----------------------------|
@@ -145,7 +145,7 @@ curl -X DELETE http://localhost:3000/api/products/<id>
 
 ---
 
-## 🧭 Cómo usar la aplicación
+##  Cómo usar la aplicación
 
 1. La página principal muestra el catálogo (al principio, vacío).
 2. En el formulario de la izquierda, completa los datos del producto.
@@ -155,21 +155,7 @@ curl -X DELETE http://localhost:3000/api/products/<id>
 
 ---
 
-## ✅ Principios aplicados
-
-- **Separation of Concerns (SoC)**: cada capa tiene una responsabilidad única.
-- **Single Responsibility**: cada clase hace una sola cosa (un caso de uso = una clase).
-- **Open-Closed**: para añadir un nuevo origen de datos (p. ej. MongoDB), basta crear
-  una nueva implementación de `IProductRepository` sin tocar los casos de uso.
-- **Liskov Substitution**: cualquier implementación de `IProductRepository` es
-  intercambiable.
-- **Interface Segregation**: la interface expone solo lo que el dominio necesita.
-- **Dependency Inversion**: la capa de aplicación depende de la *interface* del dominio,
-  no de la implementación concreta de Prisma.
-
----
-
-## 🛠️ Scripts disponibles
+##  Scripts disponibles
 
 ```bash
 bun run dev        # servidor de desarrollo (puerto 3000)
