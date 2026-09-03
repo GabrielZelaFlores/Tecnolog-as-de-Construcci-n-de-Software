@@ -10,7 +10,8 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { ProductForm } from '@/presentation/components/ProductForm'
-import { ProductList, type ProductItem } from '@/presentation/components/ProductList'
+import type { ProductItem } from '@/presentation/components/ProductList'
+import { ProductCatalog } from '@/presentation/components/ProductCatalog'
 import { Button } from '@/components/ui/button'
 import { Layers, RefreshCw } from 'lucide-react'
 import { toast } from 'sonner'
@@ -102,7 +103,7 @@ export default function Home() {
                 ))}
               </div>
             ) : (
-              <ProductList
+              <ProductCatalog
                 products={products}
                 onDelete={handleDelete}
                 deletingId={deletingId}
