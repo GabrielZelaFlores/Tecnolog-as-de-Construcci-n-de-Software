@@ -1,4 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card'
+import { useI18n } from '@/i18n/I18nProvider'
 
 interface ProductSummaryProps {
   total: number
@@ -8,11 +9,12 @@ interface ProductSummaryProps {
 
 // STATELESS 1: solo presenta los datos que recibe mediante props.
 export function ProductSummary({ total, available, outOfStock }: ProductSummaryProps) {
+  const { t } = useI18n()
   return (
     <div className="mb-4 grid grid-cols-3 gap-3">
-      <SummaryItem label="Productos" value={total} />
-      <SummaryItem label="Disponibles" value={available} />
-      <SummaryItem label="Agotados" value={outOfStock} />
+      <SummaryItem label={t('total')} value={total} />
+      <SummaryItem label={t('available')} value={available} />
+      <SummaryItem label={t('outOfStock')} value={outOfStock} />
     </div>
   )
 }

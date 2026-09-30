@@ -15,8 +15,19 @@ import { ProductCatalog } from '@/presentation/components/ProductCatalog'
 import { Button } from '@/components/ui/button'
 import { Layers, RefreshCw } from 'lucide-react'
 import { toast } from 'sonner'
+import { I18nProvider, useI18n } from '@/i18n/I18nProvider'
+import { LanguageSelector } from '@/presentation/components/LanguageSelector'
 
 export default function Home() {
+  return (
+    <I18nProvider>
+      <StorePage />
+    </I18nProvider>
+  )
+}
+
+function StorePage() {
+  const { t } = useI18n()
   const [products, setProducts] = useState<ProductItem[]>([])
   const [loading, setLoading] = useState(true)
   const [deletingId, setDeletingId] = useState<string | null>(null)
@@ -28,14 +39,15 @@ export default function Home() {
       const json = await res.json()
       setProducts(json.data ?? [])
     } catch {
-      toast.error('No se pudieron cargar los productos')
+      toast.error(t('loadError'))
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [t])
 
   useEffect(() => {
-    loadProducts()
+    const initialLoad = window.setTimeout(loadProducts, 0)
+    return () => window.clearTimeout(initialLoad)
   }, [loadProducts])
 
   async function handleDelete(id: string) {
@@ -43,10 +55,10 @@ export default function Home() {
     try {
       const res = await fetch(`/api/products/${id}`, { method: 'DELETE' })
       if (!res.ok) throw new Error('Error al eliminar')
-      toast.success('Producto eliminado')
+      toast.success(t('deleteSuccess'))
       setProducts((prev) => prev.filter((p) => p.id !== id))
     } catch {
-      toast.error('No se pudo eliminar el producto')
+      toast.error(t('deleteError'))
     } finally {
       setDeletingId(null)
     }
@@ -56,22 +68,25 @@ export default function Home() {
     <div className="min-h-screen flex flex-col bg-muted/30">
       {/* Header */}
       <header className="border-b bg-background">
-        <div className="container mx-auto px-4 py-5 flex items-center justify-between">
+        <div className="container mx-auto px-4 py-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
             <div className="h-10 w-10 rounded-lg bg-foreground text-background flex items-center justify-center">
               <Layers className="h-5 w-5" />
             </div>
             <div>
-              <h1 className="text-xl font-bold tracking-tight">Tienda N-Capas</h1>
+              <h1 className="text-xl font-bold tracking-tight">{t('appTitle')}</h1>
               <p className="text-xs text-muted-foreground">
-                Demo de arquitectura Layered (Domain · Infrastructure · Application · Presentation)
+                {t('appSubtitle')}
               </p>
             </div>
           </div>
-          <Button variant="outline" size="sm" onClick={loadProducts} disabled={loading}>
-            <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-            Recargar
-          </Button>
+          <div className="flex items-center gap-2 self-end sm:self-auto">
+            <LanguageSelector />
+            <Button variant="outline" size="sm" onClick={loadProducts} disabled={loading}>
+              <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+              {t('reload')}
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -86,9 +101,9 @@ export default function Home() {
           {/* Contenido: lista de productos */}
           <section>
             <div className="flex items-baseline justify-between mb-4">
-              <h2 className="text-2xl font-bold">Catálogo de productos</h2>
+              <h2 className="text-2xl font-bold">{t('catalogTitle')}</h2>
               <span className="text-sm text-muted-foreground">
-                {products.length} producto{products.length === 1 ? '' : 's'}
+                {products.length} {products.length === 1 ? t('productSingular') : t('productPlural')}
               </span>
             </div>
 
@@ -116,7 +131,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t bg-background mt-auto">
         <div className="container mx-auto px-4 py-4 text-center text-sm text-muted-foreground">
-          Ejemplo educativo · Arquitectura N-Capas con Next.js + Prisma · Principios SoC & SOLID
+          {t('footer')}
         </div>
       </footer>
     </div>
