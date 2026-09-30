@@ -17,6 +17,7 @@ import { Layers, RefreshCw } from 'lucide-react'
 import { toast } from 'sonner'
 import { I18nProvider, useI18n } from '@/i18n/I18nProvider'
 import { LanguageSelector } from '@/presentation/components/LanguageSelector'
+import { ExternalWeather } from '@/presentation/components/ExternalWeather'
 
 export default function Home() {
   return (
@@ -92,6 +93,7 @@ function StorePage() {
 
       {/* Main */}
       <main className="container mx-auto px-4 py-8 flex-1">
+        <ExternalWeather />
         <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
           {/* Sidebar: formulario */}
           <aside className="lg:sticky lg:top-8 self-start">
