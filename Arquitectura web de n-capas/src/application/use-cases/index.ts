@@ -8,6 +8,7 @@
 // ===================================================================
 
 import { PrismaProductRepository } from '@/infrastructure/repositories/PrismaProductRepository'
+import { NetlifyBlobProductRepository } from '@/infrastructure/repositories/NetlifyBlobProductRepository'
 import {
   GetAllProductsUseCase,
   GetProductByIdUseCase,
@@ -18,7 +19,9 @@ import {
 
 // Instancia única del repositorio (en un proyecto mayor, usaríamos
 // un contenedor de DI; aquí mantenemos el ejemplo simple con un singleton).
-const productRepository = new PrismaProductRepository()
+const productRepository = process.env.NETLIFY === 'true'
+  ? new NetlifyBlobProductRepository()
+  : new PrismaProductRepository()
 
 export const useCases = {
   getAllProducts: new GetAllProductsUseCase(productRepository),
