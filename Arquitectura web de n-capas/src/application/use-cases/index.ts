@@ -19,7 +19,9 @@ import {
 
 // Instancia única del repositorio (en un proyecto mayor, usaríamos
 // un contenedor de DI; aquí mantenemos el ejemplo simple con un singleton).
-const isNetlifyRuntime = process.env.NETLIFY === 'true' || Boolean(process.env.NETLIFY_SITE_ID)
+const isNetlifyRuntime = process.env.STORAGE_PROVIDER === 'netlify'
+  || process.env.NETLIFY === 'true'
+  || Boolean(process.env.NETLIFY_SITE_ID)
 
 const productRepository = isNetlifyRuntime
   ? new NetlifyBlobProductRepository()
