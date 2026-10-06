@@ -19,7 +19,9 @@ import {
 
 // Instancia única del repositorio (en un proyecto mayor, usaríamos
 // un contenedor de DI; aquí mantenemos el ejemplo simple con un singleton).
-const productRepository = process.env.NETLIFY === 'true'
+const isNetlifyRuntime = process.env.NETLIFY === 'true' || Boolean(process.env.NETLIFY_SITE_ID)
+
+const productRepository = isNetlifyRuntime
   ? new NetlifyBlobProductRepository()
   : new PrismaProductRepository()
 
